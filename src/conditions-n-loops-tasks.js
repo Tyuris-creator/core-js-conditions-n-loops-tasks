@@ -438,18 +438,52 @@ function rotateMatrix(inputMatrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(inputArr) {
-  const arr = inputArr.slice();
-  for (let i = 0; i < arr.length; i += 1) {
-    for (let j = i + 1; j < arr.length; j += 1) {
-      if (arr[i] > arr[j]) {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-      }
+function sortByAsc(currentArr) {
+  function mergeSort(inputArr) {
+    if (inputArr.length <= 1) {
+      return inputArr;
     }
+    const arr = inputArr;
+    const left = [];
+    const right = [];
+    const mid = Math.floor(arr.length / 2);
+    for (let i = 0; i < mid; i += 1) {
+      left[i] = arr[i];
+    }
+    for (let i = mid; i < arr.length; i += 1) {
+      right[i - mid] = arr[i];
+    }
+    mergeSort(left);
+    mergeSort(right);
+
+    let i = 0;
+    let j = 0;
+    let k = 0;
+
+    while (i < left.length && j < right.length) {
+      if (left[i] < right[j]) {
+        arr[k] = left[i];
+        i += 1;
+      } else {
+        arr[k] = right[j];
+        j += 1;
+      }
+      k += 1;
+    }
+
+    while (i < left.length) {
+      arr[k] = left[i];
+      i += 1;
+      k += 1;
+    }
+    while (j < right.length) {
+      arr[k] = right[j];
+      j += 1;
+      k += 1;
+    }
+    return arr;
   }
-  return arr;
+  return mergeSort(currentArr);
 }
 
 /**
